@@ -25,7 +25,14 @@
     "react-dom": "15.6.2",
     "react-key-handler": "^1.0.1",
     "tslint": "^5.9.1",
-    "tslint-microsoft-contrib": "^5.0.3"
+    "tslint-microsoft-contrib": "^5.0.3",
+    "@pnp/common": "^1.2.8",
+    "@pnp/logging": "^1.2.8",
+    "@pnp/odata": "^1.2.8",
+    "@pnp/polyfill-ie11": "^1.0.1",
+    "@pnp/sp": "^1.2.8",
+    "@pnp/sp-clientsvc": "^1.2.8",
+    "@pnp/sp-taxonomy": "^1.2.8"
   },
   "devDependencies": {
     "@microsoft/sp-build-web": "~1.4.1",

@@ -94,15 +94,21 @@ export class ExtensionManager extends React.Component<IExtensionManagerProps, IE
       name: strings.NewButton,
       icon: "Add",
       ariaLabel: strings.NewButtonAriaLabel,
-      ["data-automation-id"]: "newItemMenu"
+      ["data-automation-id"]: "newItemMenu",
+      onClick: () => {
+        this.setState({
+          showPane: true,
+          isEdit: false
+        });
+      }
     },
-    {
-      key: "upload",
-      name: strings.UploadButton,
-      icon: "Upload",
-      ariaLabel: strings.UploadButtonAriaLabel,
-      ["data-automation-id"]: "uploadButton"
-    }
+    // {
+    //   key: "upload",
+    //   name: strings.UploadButton,
+    //   icon: "Upload",
+    //   ariaLabel: strings.UploadButtonAriaLabel,
+    //   ["data-automation-id"]: "uploadButton"
+    // }
   ];
 
   private _editItems: IContextualMenuItem[] = [
@@ -111,7 +117,13 @@ export class ExtensionManager extends React.Component<IExtensionManagerProps, IE
       name: strings.EditButton,
       icon: "Edit",
       ariaLabel: strings.EditButtonLabel,
-      ["data-automation-id"]: "editButton"
+      ["data-automation-id"]: "editButton",
+      onClick: () => {
+        this.setState({
+          showPane: true,
+          isEdit: true
+        });
+      }
     }
   ];
 
@@ -150,7 +162,8 @@ export class ExtensionManager extends React.Component<IExtensionManagerProps, IE
       contextualMenuProps: undefined,
       selectionCount: this._selection.getSelectedCount(),
       showPane: false,
-      hideDeleteDialog: true
+      hideDeleteDialog: true,
+      isEdit: false
     };
   }
 
@@ -166,7 +179,7 @@ export class ExtensionManager extends React.Component<IExtensionManagerProps, IE
     // this.props.webPartContext.statusRenderer.clearLoadingIndicator(
     //   document.getElementsByClassName(styles.extensionManager)[0]);
   }
-
+  
   public render(): React.ReactElement<IExtensionManagerProps> {
     const {
       sortedItems,
@@ -194,11 +207,14 @@ export class ExtensionManager extends React.Component<IExtensionManagerProps, IE
           onColumnHeaderContextMenu={this._onColumnHeaderContextMenu}
         />
       </MarqueeSelection>;
-
+    let selection = this._selection.getSelection();
     const panel: JSX.Element = this.state.showPane &&
       <ExtensionPanel
+        isEdit={this.state.isEdit}
         isOpen={this.state.showPane}
         onDismiss={this._onDismissPane}
+        item={selection.length > 0 ? selection[0] : null}
+        context={this.props.webPartContext}
       />;
 
     const deleteDialog: JSX.Element = this.renderDeleteDialog();
@@ -314,7 +330,7 @@ export class ExtensionManager extends React.Component<IExtensionManagerProps, IE
 
   private _renderTitleColumn(item: any, index: number, column: IColumn): JSX.Element {
     const fieldContent: any = item[column.fieldName];
-    return <Link>{ fieldContent }</Link>;
+    return <Link>{fieldContent}</Link>;
   }
 
   private _renderScopeColumn(item: any, index: number, column: IColumn): JSX.Element {
