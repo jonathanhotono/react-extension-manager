@@ -18,4 +18,5 @@ export interface IExtensionManagerState {
   selectionCount: number;
   showPane: boolean;
   hideDeleteDialog: boolean;
+  isEdit: boolean;
 }
